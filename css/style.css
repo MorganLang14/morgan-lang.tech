@@ -1,0 +1,191 @@
+:root {
+    --bg: #07111f;
+    --panel: #111827;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --accent: #60a5fa;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.site-body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, rgba(7, 17, 31, 0.9), rgba(7, 17, 31, 0.75)),
+        url('../images/sunset3.jpg') center/cover no-repeat;
+    color: var(--text);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+body.site-body.is-visible {
+    opacity: 1;
+}
+
+body.site-body.is-exiting {
+    opacity: 0;
+}
+
+.page-shell {
+    min-height: calc(100vh - 180px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem 2rem;
+}
+
+.hero-card {
+    max-width: 680px;
+    padding: 2rem 2rem 2rem;
+    border-radius: 24px;
+    background: rgba(17, 24, 39, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.eyebrow {
+    margin: 0 0 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 0.8rem;
+    color: var(--accent);
+}
+
+.terminal-line {
+    display: inline-block;
+    min-height: 1.2em;
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: none;
+}
+
+.terminal-prompt {
+    color: #7dd3fc;
+    margin-right: 0.35rem;
+}
+
+.terminal-text {
+    color: var(--accent);
+}
+
+.terminal-cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 1em;
+    margin-left: 0.15em;
+    background: var(--text);
+    vertical-align: text-bottom;
+    animation: blink 0.9s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.hero-card h1 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.hero-card p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--muted);
+}
+
+.navbar {
+    background: transparent !important;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+.navbar .container-fluid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    position: relative;
+}
+
+.navbar-brand {
+    color: var(--text) !important;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    margin-bottom: 0.2rem;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.nav-link {
+    color: var(--text) !important;
+    padding: 0.5rem 0.85rem;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.footer {
+    background: rgba(2, 6, 23, 0.96);
+    color: var(--text);
+    padding: 2rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-info h2 {
+    margin: 0 0 1rem;
+    font-size: 1.4rem;
+}
+
+.footer-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+    text-decoration: none;
+}
+
+.footer-social svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+.footer-social a:hover {
+    background: var(--accent);
+}
+
+.contact-social {
+    margin-top: 1.25rem;
+}
+
+.footer-note {
+    margin: 0;
+    color: var(--muted);
+    text-align: center;
+}
