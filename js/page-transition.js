@@ -62,6 +62,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Reveal scroll sections with a gentle fade when they appear in view
+    const fadeSections = document.querySelectorAll('.fade-on-scroll');
+    if (fadeSections.length > 0) {
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            fadeSections.forEach((section) => observer.observe(section));
+        } else {
+            fadeSections.forEach((section) => section.classList.add('is-visible'));
+        }
+    }
+
     // Add a subtle page fade transition for internal links
     document.querySelectorAll('a[href]').forEach((link) => {
         const href = link.getAttribute('href');

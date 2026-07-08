@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="60" viewBox="0 0 220 60">
+  <defs>
+    <linearGradient id="awsGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff9900"/>
+      <stop offset="100%" stop-color="#f6c84c"/>
+    </linearGradient>
+  </defs>
+  <rect width="220" height="60" rx="16" fill="url(#awsGrad)"/>
+  <text x="110" y="24" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="14" text-anchor="middle">Amazon Web Services</text>
+  <text x="110" y="44" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle">Cloud Practitioner</text>
+</svg>

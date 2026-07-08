@@ -41,6 +41,33 @@ body.site-body.is-exiting {
     padding: 1rem 2rem 2rem;
 }
 
+/* Flow layout for longer content pages such as experience */
+.page-shell.page-shell-flow {
+    display: block;
+    min-height: auto;
+    padding: 2rem 2rem 4rem;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.page-shell.page-shell-flow .hero-card {
+    margin: 0 auto 2rem;
+    width: 100%;
+    max-width: 760px;
+}
+
+/* Fade-in section helper for scroll animations */
+.fade-on-scroll {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* Hero panel styling */
 .hero-card {
     max-width: 680px;
@@ -104,6 +131,79 @@ body.site-body.is-exiting {
     font-size: 1.05rem;
     line-height: 1.7;
     color: var(--muted);
+}
+
+.experience-grid {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.experience-card {
+    padding: 1.75rem;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.experience-card h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.35rem;
+    color: var(--text);
+}
+
+.role-meta {
+    margin: 0.35rem 0 1rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.experience-card ul {
+    margin: 0.75rem 0 0 1rem;
+    padding: 0;
+    color: var(--muted);
+}
+
+.experience-card li {
+    margin-bottom: 0.6rem;
+    line-height: 1.7;
+}
+
+.certification-badges {
+    display: grid;
+    gap: 1rem;
+}
+
+.certification-badge {
+    display: grid;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.badge-placeholder {
+    min-height: 80px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+    text-align: center;
+    padding: 0.75rem;
+}
+
+.certification-badge p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    text-align: center;
 }
 
 .navbar {
@@ -176,10 +276,16 @@ body.site-body.is-exiting {
     text-decoration: none;
 }
 
-.footer-social svg {
-    width: 18px;
-    height: 18px;
-    fill: currentColor;
+.footer-social svg,
+.footer-social img.linkedin-logo {
+    width: 42px;
+    height: 42px;
+    display: block;
+}
+
+.contact-social {
+    display: flex;
+    justify-content: center;
 }
 
 .footer-social a:hover {

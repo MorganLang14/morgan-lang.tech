@@ -18,21 +18,89 @@
                 <a href="index.html" class="navbar-brand">morgan-lang.tech</a>
                 <div class="navbar-nav">
                     <a href="index.html" class="nav-item nav-link">Home</a>
-                    <a href="about.html" class="nav-item nav-link">About</a>
                     <a href="experience.html" class="nav-item nav-link active">Experience</a>
+                    <a href="about.html" class="nav-item nav-link">About</a>
                     <a href="contact.html" class="nav-item nav-link">Contact</a>
                 </div>
             </div>
         </div>
 
-        <main class="page-shell">
+        <main class="page-shell page-shell-flow">
             <!-- Main hero section for the Experience page -->
-            <section class="hero-card">
+            <section class="hero-card fade-on-scroll">
                 <h1>Experience built on enterprise infrastructure and cloud.</h1>
                 <p>My work focuses on delivering resilient, secure virtualisation and cloud platforms... From VMware Cloud Foundation to AWS and Azure. Over five years I've supported enterprise-scale environments, leading complex platform work and driving stable, secure operations for large organisations.</p>
             </section>
-        </main>
 
+            <!-- Supporting experience sections in a scroll-friendly layout -->
+            <section class="experience-grid">
+                <div class="experience-card fade-on-scroll">
+                    <!-- Work experience section containing current and previous roles -->
+                    <h2>Job experience</h2>
+                    <div class="role">
+                        <h3>Senior Virtualisation Engineer</h3>
+                        <p class="role-meta">Office for National Statistics · Jun 2024 – Present</p>
+                        <p>Leading platform-level work across ONS's enterprise VMware infrastructure.</p>
+                        <ul>
+                            <li>Led an end-to-end HCX migration of workloads from VMware Cloud on AWS to on-premise</li>
+                            <li>Managed Horizon VDI environment across production and facilitated updates</li>
+                            <li>Contributed architectural input to VMware Cloud Foundation deployment</li>
+                        </ul>
+                    </div>
+
+                    <div class="role">
+                        <h3>Virtualisation Engineer</h3>
+                        <p class="role-meta">Office for National Statistics · Mar 2023 – Jun 2024</p>
+                        <p>Supported enterprise VMware platforms across vSphere, SDDC and Horizon VDI.</p>
+                        <ul>
+                            <li>Managed vCenters, ESXi hosts and VMs across production environments</li>
+                            <li>Built a host-tracking tool using PowerCLI to improve operational visibility</li>
+                            <li>Assisted MFA implementation in Horizon; achieved VCP-DCV certification</li>
+                        </ul>
+                    </div>
+
+                    <div class="role">
+                        <h3>Systems Operations Administrator</h3>
+                        <p class="role-meta">Rackspace Technology · Sep 2021 – Mar 2023</p>
+                        <p>Supported client infrastructure across VMware and Azure environments.</p>
+                        <ul>
+                            <li>Promoted from Support Technician to Systems Operations Administrator</li>
+                            <li>Resolved incidents across customer VMs, vCenters and Azure</li>
+                            <li>Achieved AWS Certified Cloud Practitioner during this role</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-card fade-on-scroll">
+                    <!-- Certifications section with placeholder badge blocks -->
+                    <h2>Certifications</h2>
+                    <div class="certification-badges">
+                        <div class="certification-badge placeholder">
+                            <div class="badge-placeholder">Azure Fundamentals badge</div>
+                            <p>Issued Jun 2026</p>
+                        </div>
+                        <div class="certification-badge placeholder">
+                            <div class="badge-placeholder">VMware Cloud Foundation Administrator badge</div>
+                            <p>Issued Apr 2026 · Expires Apr 2029</p>
+                        </div>
+                        <div class="certification-badge placeholder">
+                            <div class="badge-placeholder">AWS Cloud Practitioner badge</div>
+                            <p>Issued Sep 2021 · Expires May 2027</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="experience-card fade-on-scroll">
+                    <!-- Education section with degree details -->
+                    <h2>Education</h2>
+                    <div class="education">
+                        <h3>BSc Computer Science, Integrated Industrial Year</h3>
+                        <p class="role-meta">Aberystwyth University · 2015 – 2019</p>
+                        <p>Final year project: Self-Configurable Ad-Hoc Networks.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
 
     </body>
 </html>
