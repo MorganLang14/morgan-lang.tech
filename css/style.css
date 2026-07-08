@@ -1,3 +1,4 @@
+/* Root colour palette */
 :root {
     --bg: #07111f;
     --panel: #111827;
@@ -6,10 +7,12 @@
     --accent: #60a5fa;
 }
 
+/* Make every element follow the same box model */
 * {
     box-sizing: border-box;
 }
 
+/* Page background and base text styling */
 body.site-body {
     margin: 0;
     min-height: 100vh;
@@ -29,6 +32,7 @@ body.site-body.is-exiting {
     opacity: 0;
 }
 
+/* Main page container for vertical and horizontal centring */
 .page-shell {
     min-height: calc(100vh - 180px);
     display: flex;
@@ -37,6 +41,7 @@ body.site-body.is-exiting {
     padding: 1rem 2rem 2rem;
 }
 
+/* Hero panel styling */
 .hero-card {
     max-width: 680px;
     padding: 2rem 2rem 2rem;
@@ -54,6 +59,7 @@ body.site-body.is-exiting {
     color: var(--accent);
 }
 
+/* Terminal-style text line for the hero animation */
 .terminal-line {
     display: inline-block;
     min-height: 1.2em;

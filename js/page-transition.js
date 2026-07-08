@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     body.classList.add('page-transition', 'is-visible');
 
+    // Find the terminal text area and its wrapper
     const terminalLine = document.querySelector('.terminal-line');
     const terminalText = document.querySelector('.terminal-text');
 
@@ -9,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const phrases = terminalLine.getAttribute('data-words').split(',');
         let index = 0;
 
+        // Type each character one by one to simulate a terminal prompt
         const typeText = (text, onComplete) => {
             terminalText.textContent = '';
             let i = 0;
@@ -26,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tick();
         };
 
+        // Erase the current text one character at a time
         const eraseText = (onComplete) => {
             let current = terminalText.textContent;
 
@@ -42,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tick();
         };
 
+        // Cycle through the available terminal phrases continuously
         const runCycle = () => {
             const phrase = phrases[index].trim();
             index = (index + 1) % phrases.length;
@@ -58,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Add a subtle page fade transition for internal links
     document.querySelectorAll('a[href]').forEach((link) => {
         const href = link.getAttribute('href');
 
