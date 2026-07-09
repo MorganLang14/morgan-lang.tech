@@ -81,6 +81,97 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // No homepage-specific overlap behaviour — homepage uses a single hero card
+
+    // Manage the certification carousel so it can be controlled by buttons, dots, arrows, and autoplay
+    const certificationCarousel = document.querySelector('.certification-carousel');
+    if (certificationCarousel) {
+        const slides = Array.from(certificationCarousel.querySelectorAll('.certification-slide'));
+        const prevButton = document.querySelector('.certification-nav.is-prev');
+        const nextButton = document.querySelector('.certification-nav.is-next');
+        const dotsContainer = document.querySelector('.certification-dots');
+        let currentIndex = 0;
+        let autoplayTimer = null;
+
+        // Show the selected slide and update the active dot state, while keeping the neighboring cards in the background
+        const updateCarousel = () => {
+            slides.forEach((slide, index) => {
+                const isActive = index === currentIndex;
+                const isPrev = index === (currentIndex - 1 + slides.length) % slides.length;
+                const isNext = index === (currentIndex + 1) % slides.length;
+
+                slide.classList.toggle('is-active', isActive);
+                slide.classList.toggle('is-prev', isPrev);
+                slide.classList.toggle('is-next', isNext);
+                slide.classList.toggle('is-hidden', !isActive && !isPrev && !isNext);
+            });
+
+            if (dotsContainer) {
+                dotsContainer.querySelectorAll('.certification-dot').forEach((dot, index) => {
+                    dot.classList.toggle('is-active', index === currentIndex);
+                });
+            }
+        };
+
+        // Move to the requested slide while wrapping around at the ends
+        const showSlide = (index) => {
+            currentIndex = (index + slides.length) % slides.length;
+            updateCarousel();
+        };
+
+        // Restart the auto-advancing timer after any manual interaction so the carousel feels continuous
+        const startAutoplay = () => {
+            window.clearInterval(autoplayTimer);
+            autoplayTimer = window.setInterval(() => {
+                showSlide(currentIndex + 1);
+            }, 7000);
+        };
+
+        if (slides.length > 1) {
+            if (dotsContainer) {
+                slides.forEach((_, index) => {
+                    const dot = document.createElement('button');
+                    dot.type = 'button';
+                    dot.className = 'certification-dot';
+                    dot.setAttribute('aria-label', `Show certification ${index + 1}`);
+                    dot.addEventListener('click', () => {
+                        showSlide(index);
+                        startAutoplay();
+                    });
+                    dotsContainer.appendChild(dot);
+                });
+            }
+
+            prevButton?.addEventListener('click', () => {
+                showSlide(currentIndex - 1);
+                startAutoplay();
+            });
+
+            nextButton?.addEventListener('click', () => {
+                showSlide(currentIndex + 1);
+                startAutoplay();
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowLeft') {
+                    event.preventDefault();
+                    showSlide(currentIndex - 1);
+                    startAutoplay();
+                }
+
+                if (event.key === 'ArrowRight') {
+                    event.preventDefault();
+                    showSlide(currentIndex + 1);
+                    startAutoplay();
+                }
+            });
+
+            startAutoplay();
+        }
+
+        updateCarousel();
+    }
+
     // Add a subtle page fade transition for internal links
     document.querySelectorAll('a[href]').forEach((link) => {
         const href = link.getAttribute('href');
