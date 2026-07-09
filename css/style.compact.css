@@ -1,0 +1,8 @@
+/* Backup of compact styles (created before revert) */
+/* This file contains a snapshot of the certification-related compact rules. */
+
+.certification-carousel { min-height: 180px; padding: 0.35rem 0 0.8rem; }
+.certification-badge { display:grid; grid-template-columns:auto 1fr; gap:0.75rem; align-items:center; padding:0.85rem; border-radius:16px; min-height:110px; }
+.cert-badge-image { width:72px; }
+.cert-content { display:flex; flex-direction:column; justify-content:center; gap:0.3rem }
+.certifications-card { padding:1rem }

@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <main class="page-shell page-shell-flow">
+9        <main class="page-shell page-shell-flow">
             <!-- Main hero section for the Experience page -->
             <section class="hero-card fade-on-scroll">
                 <h1>Experience built on enterprise infrastructure and cloud.</h1>
@@ -34,7 +34,7 @@
 
             <!-- Supporting experience sections in a scroll-friendly layout -->
             <section class="experience-grid">
-                <div class="experience-card fade-on-scroll">
+                <div class="experience-card fade-on-scroll certifications-card">
                     <!-- Work experience section containing current and previous roles -->
                     <h2>Job experience</h2>
                     <div class="role">
@@ -76,14 +76,18 @@
                     <!-- Certifications carousel heading and navigation controls -->
                     <div class="certification-header">
                         <h2>Certifications</h2>
+                        <div class="certification-controls" aria-label="Certification navigation">
+                            <button class="certification-nav is-prev" type="button" aria-label="Show previous certification">←</button>
+                            <div class="certification-dots" aria-label="Certification slides"></div>
+                            <button class="certification-nav is-next" type="button" aria-label="Show next certification">→</button>
+                        </div>
                     </div>
 
                     <!-- Slide container for the certification cards -->
                     <div class="certification-carousel">
                         <article class="certification-slide is-active">
-                            <div class="certification-badge has-badge">
-                                <img src="images/microsoft-certified-fundamentals-badge-256.png" alt="Microsoft Certified: Azure Fundamentals" class="cert-badge-image">
-                                <div>
+                            <div class="certification-badge">
+                                <div class="cert-content">
                                     <span class="badge-pill">AZ-900</span>
                                     <h3>Azure Fundamentals</h3>
                                     <p>Built a strong foundation in cloud concepts, Azure services, security, and cost management.</p>
@@ -93,9 +97,8 @@
                         </article>
 
                         <article class="certification-slide">
-                            <div class="certification-badge has-badge">
-                                <img src="images/vmware-certified-professional-vmware-cloud-foundati.4.png" alt="VMware Certified Professional" class="cert-badge-image">
-                                <div>
+                            <div class="certification-badge">
+                                <div class="cert-content">
                                     <span class="badge-pill">VCP-DCV</span>
                                     <h3>VMware Cloud Foundation Administrator</h3>
                                     <p>Validated expertise in managing and operating VMware Cloud Foundation environments at scale.</p>
@@ -105,9 +108,11 @@
                         </article>
 
                         <article class="certification-slide">
-                            <div class="certification-badge has-badge">
-                                <img src="images/aws-certified-cloud-practitioner.png" alt="AWS Certified Cloud Practitioner" class="cert-badge-image">
-                                <div>
+                            <div class="certification-badge">
+                                <!-- Added badge image for AWS certification -->
+                                <!-- Image placed in images/aws-certified-cloud-practitioner.png -->
+                                <img src="images/aws-certified-cloud-practitioner.png" alt="AWS Certified Cloud Practitioner badge" class="cert-badge-image">
+                                <div class="cert-content">
                                     <span class="badge-pill">CLF-C02</span>
                                     <h3>AWS Cloud Practitioner</h3>
                                     <p>Demonstrated practical understanding of AWS core services, architecture, and cloud operations.</p>
@@ -115,13 +120,6 @@
                                 </div>
                             </div>
                         </article>
-                    </div>
-
-                    <!-- Centered navigation controls placed below the carousel -->
-                    <div class="certification-controls" aria-label="Certification navigation">
-                        <button class="certification-nav is-prev" type="button" aria-label="Show previous certification">←</button>
-                        <div class="certification-dots" aria-label="Certification slides"></div>
-                        <button class="certification-nav is-next" type="button" aria-label="Show next certification">→</button>
                     </div>
                 </div>
 
