@@ -529,15 +529,30 @@ body.site-body.is-exiting {
     width: 42px;
     height: 42px;
     display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    padding: 8px;
+    border-radius: 50%;
+    transition: border-radius 0.25s ease, background 0.25s ease;
+    background: transparent;
+}
+
+.footer-social a:hover {
+    background: var(--accent);
+    border-radius: 16px;
 }
 
 .contact-social {
     display: flex;
     justify-content: center;
-}
-
-.footer-social a:hover {
-    background: var(--accent);
 }
 
 .contact-social {
