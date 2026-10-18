@@ -11,35 +11,182 @@
         <script src="js/page-transition.js" defer></script>
     </head>
 
-    <body data-spy="scroll" data-target=".navbar" data-offset="51" class="site-body">
-        <!-- Top navigation bar with centred brand and page links -->
-        <div class="navbar navbar-expand-lg navbar-dark">
+    <body class="site-body">
+        <!-- Sticky navigation bar with centred brand and section links -->
+        <nav class="navbar navbar-expand-lg navbar-dark" aria-label="Main navigation">
             <div class="container-fluid">
-                <a href="index.html" class="navbar-brand">morgan-lang.tech</a>
+                <a href="#home" class="navbar-brand">morgan-lang.tech</a>
                 <div class="navbar-nav">
-                        <a href="index.html" class="nav-item nav-link active">Home</a>
-                    <a href="experience.html" class="nav-item nav-link">Experience</a>
-                    <a href="about.html" class="nav-item nav-link">About</a>
-                    <a href="contact.html" class="nav-item nav-link">Contact</a>
+                    <a href="#home" class="nav-item nav-link active">Home</a>
+                    <a href="#experience" class="nav-item nav-link">Experience</a>
+                    <a href="#about" class="nav-item nav-link">About</a>
+                    <a href="#contact" class="nav-item nav-link">Contact</a>
                 </div>
             </div>
-        </div>
+        </nav>
 
         <main class="page-shell">
-            <!-- Hero card with terminal-style animated line and main headline -->
-            <section class="hero-card">
-                <p class="eyebrow">
-                    <span class="terminal-line" data-words=",Infinitely Curious,Built on vSphere,Perpetually Provisioning,From ESXi to Cloud,Problem Solver">
-                        <span class="terminal-prompt">&gt;</span>
-                        <span class="terminal-text"></span>
-                        <span class="terminal-cursor"></span>
-                    </span>
-                </p>
-                <h1>Morgan Lang</h1>
-                <p>Engineering resilient systems across virtualisation and cloud.</p>
+            <!-- Home: hero card with terminal-style animated line and main headline -->
+            <section id="home" class="page-section">
+                <div class="hero-card">
+                    <p class="eyebrow">
+                        <span class="terminal-line" data-words=",Infinitely Curious,Built on vSphere,Perpetually Provisioning,From ESXi to Cloud,Problem Solver">
+                            <span class="terminal-prompt">&gt;</span>
+                            <span class="terminal-text"></span>
+                            <span class="terminal-cursor"></span>
+                        </span>
+                    </p>
+                    <h1>Morgan Lang</h1>
+                    <p>Engineering resilient systems across virtualisation and cloud.</p>
+                </div>
+                <!-- Arrow to the next section -->
+                <a href="#experience" class="section-next" aria-label="Go to the Experience section">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </a>
+            </section>
+
+            <!-- Experience: summary, roles, certifications and education -->
+            <section id="experience" class="page-section">
+                <div class="hero-card fade-on-scroll">
+                    <h1>Experience built on enterprise infrastructure and cloud.</h1>
+                    <p>I design and operate resilient, secure virtualisation and cloud platforms across VMware, AWS and Azure. For over five years I have supported large-scale environments and delivered stable infrastructure services.</p>
+                </div>
+
+                <div class="experience-grid">
+                    <div class="experience-card fade-on-scroll">
+                        <!-- Work experience section containing current and previous roles -->
+                        <h2>Job experience</h2>
+                        <div class="role">
+                            <h3>Senior Virtualisation Engineer</h3>
+                            <p class="role-meta">Office for National Statistics · Jun 2024 – Present</p>
+                            <p>Leading platform work across ONS's enterprise VMware estate, supporting cloud initiatives </p>
+                            <ul>
+                                <li>Delivered an HCX migration from VMware Cloud on AWS to on-premises</li>
+                                <li>Focused on delivering cloud-native solutions and modernising infrastructure</li>
+                                <li>Contributed architectural input to VMware Cloud Foundation deployment</li>
+                            </ul>
+                        </div>
+
+                        <div class="role">
+                            <h3>Virtualisation Engineer</h3>
+                            <p class="role-meta">Office for National Statistics · Mar 2023 – Jun 2024</p>
+                            <p>Supported VMware platforms across vSphere, SDDC and Horizon VDI.</p>
+                            <ul>
+                                <li>Managed vCenters, ESXi hosts and production VMs</li>
+                                <li>Managed production Horizon VDI and supported core updates</li>
+                                <li>Helped implement MFA for Horizon and achieved VCTA-DCV and VCP-DCV</li>
+                            </ul>
+                        </div>
+
+                        <div class="role">
+                            <h3>Systems Operations Administrator</h3>
+                            <p class="role-meta">Rackspace Technology · Sep 2021 – Mar 2023</p>
+                            <p>Supported client infrastructure across VMware and Azure.</p>
+                            <ul>
+                                <li>Promoted from Support Technician to Systems Operations Administrator</li>
+                                <li>Resolved incidents across customer VMs, vCenters and Azure</li>
+                                <li>Earned AWS Certified Cloud Practitioner</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="experience-card fade-on-scroll">
+                        <!-- Certifications carousel heading and navigation controls -->
+                        <div class="certification-header">
+                            <h2>Certifications</h2>
+                        </div>
+
+                        <!-- Slide container for the certification cards -->
+                        <div class="certification-carousel">
+                            <article class="certification-slide is-active">
+                                <div class="certification-badge has-badge">
+                                    <img src="images/microsoft-certified-fundamentals-badge-256.png" alt="Microsoft Certified: Azure Fundamentals" class="cert-badge-image">
+                                    <div>
+                                        <span class="badge-pill">AZ-900</span>
+                                        <h3>Azure Fundamentals</h3>
+                                        <p>Built a strong foundation in cloud concepts, Azure services, security, and cost management.</p>
+                                        <div class="certification-meta">Issued Jun 2026</div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="certification-slide">
+                                <div class="certification-badge has-badge">
+                                    <img src="images/vmware-certified-professional-vmware-cloud-foundati.4.png" alt="VMware Certified Professional" class="cert-badge-image">
+                                    <div>
+                                        <span class="badge-pill">VCP-VCF</span>
+                                        <h3>VMware Cloud Foundation Administrator</h3>
+                                        <p>Validated expertise in managing and operating VMware Cloud Foundation environments at scale.</p>
+                                        <div class="certification-meta">Issued Apr 2026 · Expires Apr 2029</div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="certification-slide">
+                                <div class="certification-badge has-badge">
+                                    <img src="images/aws-certified-cloud-practitioner.png" alt="AWS Certified Cloud Practitioner" class="cert-badge-image">
+                                    <div>
+                                        <span class="badge-pill">CLF-C02</span>
+                                        <h3>AWS Cloud Practitioner</h3>
+                                        <p>Demonstrated practical understanding of AWS core services, architecture, and cloud operations.</p>
+                                        <div class="certification-meta">Issued Sep 2021 · Expires May 2027</div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+
+                        <!-- Centred navigation controls placed below the carousel -->
+                        <nav class="certification-controls" aria-label="Certification navigation">
+                            <button class="certification-nav is-prev" type="button" aria-label="Show previous certification">←</button>
+                            <div class="certification-dots" role="group" aria-label="Certification slides"></div>
+                            <button class="certification-nav is-next" type="button" aria-label="Show next certification">→</button>
+                        </nav>
+                    </div>
+
+                    <div class="experience-card fade-on-scroll">
+                        <!-- Education section with degree details -->
+                        <h2>Education</h2>
+                        <div class="education">
+                            <h3>BSc Computer Science, Integrated Industrial Year</h3>
+                            <p class="role-meta">Aberystwyth University · 2015 – 2019</p>
+                            <p>Final year project on self-configuring ad-hoc network systems.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Arrow to the next section -->
+                <a href="#about" class="section-next" aria-label="Go to the About section">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </a>
+            </section>
+
+            <!-- About: personal interests -->
+            <section id="about" class="page-section">
+                <div class="hero-card fade-on-scroll">
+                    <h1>Systems aren't the only thing I like running smoothly..</h1>
+                    <p>I also love cars, driving, and the focus of a good choir rehearsal. I’ve sung with Pendyrus Male Voice Choir and The Elizabethan Madrigal Singers, serving as Vice-President there. When I’m not on stage or on the road, I’m usually gaming and exploring new systems.</p>
+                </div>
+                <!-- Arrow to the next section -->
+                <a href="#contact" class="section-next" aria-label="Go to the Contact section">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </a>
+            </section>
+
+            <!-- Contact: LinkedIn and GitHub calls to action -->
+            <section id="contact" class="page-section">
+                <div class="hero-card fade-on-scroll">
+                    <h1>Let’s connect.</h1>
+                    <p>Enjoyed the site? Reach out on LinkedIn or see what I’ve been building on GitHub - I’d love to hear from you.</p>
+                    <!-- Custom icons centred for a clear call to action -->
+                    <div class="footer-social contact-social">
+                        <a href="https://uk.linkedin.com/in/morgan-lang" target="_blank" rel="noreferrer" aria-label="Visit Morgan on LinkedIn">
+                            <img src="images/InBug-White.png" alt="InBug White logo" class="linkedin-logo" loading="lazy">
+                        </a>
+                        <a href="https://github.com/MorganLang14" target="_blank" rel="noreferrer" aria-label="Visit Morgan on GitHub" class="github-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1-.02-1.96-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.8 1.18 1.83 1.18 3.08 0 4.41-2.69 5.39-5.25 5.67.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+                        </a>
+                    </div>
+                </div>
             </section>
         </main>
-
-
     </body>
 </html>

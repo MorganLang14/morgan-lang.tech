@@ -5,11 +5,24 @@
     --text: #f8fafc;
     --muted: #cbd5e1;
     --accent: #60a5fa;
+    /* Updated from JS to the real navbar height so anchored sections clear it */
+    --nav-height: 120px;
 }
 
 /* Make every element follow the same box model */
 * {
     box-sizing: border-box;
+}
+
+/* Smooth scrolling between sections when a nav link is clicked */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
 }
 
 /* Page background and base text styling */
@@ -19,11 +32,30 @@ body.site-body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
     line-height: 1.6;
-    background: linear-gradient(135deg, rgba(7, 17, 31, 0.9), rgba(7, 17, 31, 0.75)),
-        url('../images/sunset3.jpg') center/cover no-repeat;
+    background: var(--bg);
     color: var(--text);
     opacity: 0;
     transition: opacity 0.25s ease;
+}
+
+/* Fixed background layer so the photo stays put while sections scroll over it */
+body.site-body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(135deg, rgba(7, 17, 31, 0.9), rgba(7, 17, 31, 0.75)),
+        url('../images/sunset3.jpg') center/cover no-repeat;
+}
+
+/* Each navigable section fills the screen below the navbar */
+.page-section {
+    min-height: calc(100vh - var(--nav-height));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 2rem;
+    scroll-margin-top: var(--nav-height);
 }
 
 body.site-body.is-visible {
@@ -298,7 +330,7 @@ body.site-body.is-exiting {
 .certification-controls {
     display: flex;
     align-items: center;
-    justify-content: center; /* center controls below the carousel */
+    justify-content: center; /* centre controls below the carousel */
     gap: 0.5rem;
     margin-top: 0.85rem; /* space from carousel */
 }
@@ -342,17 +374,17 @@ body.site-body.is-exiting {
     background: rgba(96, 165, 250, 0.24);
 }
 
+/* Slides are stacked in a single grid cell so the carousel grows to fit the tallest card */
 .certification-carousel {
     position: relative;
-    min-height: 260px;
+    display: grid;
     overflow: hidden;
     padding: 0.5rem 0 1rem;
 }
 
 /* Slower, carousel-like motion with the surrounding cards fading into the background */
 .certification-slide {
-    position: absolute;
-    inset: 0;
+    grid-area: 1 / 1;
     width: 100%;
     opacity: 0;
     transform: translateX(120%) scale(0.9);
@@ -398,6 +430,7 @@ body.site-body.is-exiting {
     background: linear-gradient(135deg, rgba(96, 165, 250, 0.16), rgba(255, 255, 255, 0.06));
     border: 1px solid rgba(255, 255, 255, 0.08);
     min-height: 210px;
+    height: 100%;
 }
 
 /* When a badge image exists, place it to the left of the content */
@@ -545,173 +578,6 @@ body.site-body.is-exiting {
     justify-content: center;
 }
 
-.certification-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.certification-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* center controls below the carousel */
-    gap: 0.5rem;
-    margin-top: 0.85rem; /* space from carousel */
-}
-
-/* Dot indicators used to switch between certification slides */
-.certification-dots {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-}
-
-.certification-dot {
-    width: 0.7rem;
-    height: 0.7rem;
-    border: none;
-    border-radius: 999px;
-    padding: 0;
-    background: rgba(255, 255, 255, 0.35);
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.certification-dot.is-active {
-    background: var(--accent);
-    transform: scale(1.15);
-}
-
-.certification-nav {
-    border: none;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 999px;
-    background: rgba(96, 165, 250, 0.16);
-    color: var(--text);
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.certification-nav:hover {
-    transform: translateY(-1px);
-    background: rgba(96, 165, 250, 0.24);
-}
-
-.certification-carousel {
-    position: relative;
-    min-height: 260px;
-    overflow: hidden;
-    padding: 0.5rem 0 1rem;
-}
-
-/* Slower, carousel-like motion with the surrounding cards fading into the background */
-.certification-slide {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    opacity: 0;
-    transform: translateX(120%) scale(0.9);
-    pointer-events: none;
-    transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1), transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, transform;
-    backface-visibility: hidden;
-    filter: blur(1px);
-}
-
-.certification-slide.is-active {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-    pointer-events: auto;
-    filter: none;
-    z-index: 3;
-}
-
-/* The previous and next slides sit behind the active card as softer background content */
-.certification-slide.is-prev {
-    opacity: 0.32;
-    transform: translateX(-92%) scale(0.88);
-    z-index: 2;
-}
-
-.certification-slide.is-next {
-    opacity: 0.32;
-    transform: translateX(92%) scale(0.88);
-    z-index: 2;
-}
-
-.certification-slide.is-hidden {
-    opacity: 0;
-    transform: translateX(140%) scale(0.86);
-}
-
-.certification-badge {
-    display: grid;
-    gap: 0.75rem;
-    align-items: start;
-    padding: 1.15rem;
-    border-radius: 20px;
-    background: linear-gradient(135deg, rgba(96, 165, 250, 0.16), rgba(255, 255, 255, 0.06));
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    min-height: 210px;
-}
-
-/* When a badge image exists, place it to the left of the content */
-.certification-badge.has-badge {
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: 1rem;
-}
-
-.cert-badge-image {
-    width: 84px;
-    height: auto;
-    display: block;
-    border-radius: 8px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
-    object-fit: contain;
-}
-
-.badge-pill {
-    display: inline-flex;
-    align-self: flex-start;
-    width: max-content;
-    padding: 0.35rem 0.65rem;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #dbeafe;
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-/* Keep a consistent gap between the certification type pill and the title below it */
-.certification-badge .badge-pill {
-    margin-bottom: 0.5rem;
-}
-
-.certification-badge h3 {
-    margin: 0;
-    font-size: 1.05rem;
-}
-
-.certification-badge p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.7;
-    text-align: left;
-}
-
-.certification-meta {
-    color: #93c5fd;
-    font-size: 1rem;
-    font-weight: 600;
-}
-
 .navbar {
     background: transparent !important;
     border-bottom: none;
@@ -806,6 +672,152 @@ body.site-body.is-exiting {
 
 .contact-social {
     margin-top: 1.25rem;
+    gap: 1rem;
+}
+
+/* White tile for the GitHub mark so it matches the LinkedIn logo */
+.footer-social a.github-link {
+    padding: 5px;
+    border-radius: 6px;
+    background: #fff;
+    color: var(--bg);
+}
+
+.footer-social a.github-link:hover {
+    background: var(--accent);
+    border-radius: 6px;
+}
+
+/* Keep the menu bar pinned to the top while scrolling between sections */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(7, 17, 31, 0.72) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Downward arrow that takes visitors to the next section */
+.section-next {
+    align-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    margin-top: 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(96, 165, 250, 0.35);
+    background: rgba(96, 165, 250, 0.12);
+    color: var(--accent);
+    text-decoration: none;
+    animation: nudge 2.4s ease-in-out infinite;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.section-next svg {
+    width: 1.4rem;
+    height: 1.4rem;
+}
+
+.section-next:hover {
+    background: rgba(96, 165, 250, 0.24);
+    border-color: rgba(96, 165, 250, 0.6);
+}
+
+.section-next:focus-visible {
+    outline: 2px solid rgba(96, 165, 250, 0.8);
+    outline-offset: 3px;
+}
+
+@keyframes nudge {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(6px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section-next {
+        animation: none;
+    }
+}
+
+/* Phone layout: tighter spacing and stacked certification cards */
+@media (max-width: 600px) {
+    body.site-body {
+        font-size: 18px;
+    }
+
+    .page-shell:not(.page-shell-flow) {
+        padding: 1rem 1rem 3rem;
+    }
+
+    /* Fit all four menu links on one row */
+    .navbar {
+        padding: 0.75rem 0.75rem;
+    }
+
+    .navbar .container-fluid {
+        gap: 0.4rem;
+    }
+
+    .navbar-nav {
+        gap: 0.15rem;
+    }
+
+    .nav-link {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    /* Keep the typing line on one row with the cursor beside the text */
+    .terminal-line {
+        font-size: 1rem;
+        letter-spacing: 0.06em;
+        max-width: 100%;
+        white-space: nowrap;
+    }
+
+    .hero-card,
+    .experience-card {
+        padding: 1.4rem 1.25rem;
+        border-radius: 20px;
+    }
+
+    .role {
+        padding: 1rem 1.1rem;
+    }
+
+    .experience-card ul {
+        margin-left: 0;
+    }
+
+    .certification-badge,
+    .certification-badge.has-badge {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+        gap: 0.85rem;
+        padding: 1.25rem 1rem;
+    }
+
+    .cert-badge-image {
+        width: 72px;
+    }
+
+    .certification-badge h3 {
+        margin-bottom: 0.4rem;
+    }
+
+    .certification-badge p {
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
 }
 
 .footer-note {

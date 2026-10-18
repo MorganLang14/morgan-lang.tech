@@ -81,7 +81,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // No homepage-specific overlap behaviour — homepage uses a single hero card
+    // Keep the CSS navbar height in sync so anchored sections are not hidden behind the sticky bar
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        const syncNavHeight = () => {
+            document.documentElement.style.setProperty('--nav-height', `${navbar.offsetHeight}px`);
+        };
+        syncNavHeight();
+        window.addEventListener('resize', syncNavHeight);
+    }
+
+    // Highlight the menu link for whichever section is in the middle of the screen
+    const navLinks = Array.from(document.querySelectorAll('.navbar-nav .nav-link[href^="#"]'));
+    const sections = navLinks
+        .map((link) => document.querySelector(link.getAttribute('href')))
+        .filter(Boolean);
+
+    if (sections.length > 0 && 'IntersectionObserver' in window) {
+        const setActive = (id) => {
+            navLinks.forEach((link) => {
+                const isActive = link.getAttribute('href') === `#${id}`;
+                link.classList.toggle('active', isActive);
+                if (isActive) {
+                    link.setAttribute('aria-current', 'true');
+                } else {
+                    link.removeAttribute('aria-current');
+                }
+            });
+        };
+
+        const spy = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setActive(entry.target.id);
+                }
+            });
+        }, { rootMargin: '-50% 0px -50% 0px' });
+
+        sections.forEach((section) => spy.observe(section));
+    }
 
     // Manage the certification carousel so it can be controlled by buttons, dots, arrows, and autoplay
     const certificationCarousel = document.querySelector('.certification-carousel');
@@ -93,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 0;
         let autoplayTimer = null;
 
-        // Show the selected slide and update the active dot state, while keeping the neighboring cards in the background
+        // Show the selected slide and update the active dot state, while keeping the neighbouring cards in the background
         const updateCarousel = () => {
             slides.forEach((slide, index) => {
                 const isActive = index === currentIndex;
