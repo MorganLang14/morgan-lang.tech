@@ -1,0 +1,84 @@
+# Release pipeline: dev -> live
+#
+# When changes are merged into Main on morgan-lang.tech-dev, this pushes Main to a
+# `release` branch on the public morgan-lang.tech repo and opens (or updates) a pull
+# request into its `main`. Nothing goes live until that pull request is merged.
+#
+# Needs a repository secret LIVE_REPO_TOKEN: a fine-grained personal access token
+# with access to MorganLang14/morgan-lang.tech only, and Contents + Pull requests
+# set to Read and write.
+
+name: Release to live site
+
+on:
+  push:
+    branches: [Main]
+  workflow_dispatch:
+
+# Never run two releases at once
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  LIVE_REPO: MorganLang14/morgan-lang.tech
+
+jobs:
+  open-release-pr:
+    # This file is copied to the live repo along with the site; only run it in dev
+    if: github.repository == 'MorganLang14/morgan-lang.tech-dev'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out dev
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # Do not keep the built-in token, or it would override LIVE_REPO_TOKEN when pushing
+          persist-credentials: false
+
+      - name: Push Main to the live repo's release branch
+        id: push
+        env:
+          TOKEN: ${{ secrets.LIVE_REPO_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::The LIVE_REPO_TOKEN secret is missing. Add it under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+
+          live_url="https://x-access-token:${TOKEN}@github.com/${LIVE_REPO}.git"
+          git fetch --quiet "$live_url" main:refs/remotes/live/main
+
+          # Stop if the live site already has everything in Main
+          if git merge-base --is-ancestor HEAD live/main; then
+            echo "Live site is already up to date - nothing to release."
+            echo "changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git push --force --quiet "$live_url" HEAD:refs/heads/release
+          echo "changes=true" >> "$GITHUB_OUTPUT"
+
+          # Summary of what is waiting to go live, used in the pull request
+          {
+            echo "Changes from morgan-lang.tech-dev waiting to go live:"
+            echo
+            git log --no-merges --format='- %s (%h)' live/main..HEAD
+            echo
+            echo "Merge this pull request to publish them to morgan-lang.tech, or close it to hold them back."
+          } > release-notes.md
+
+      - name: Open or update the release pull request
+        if: steps.push.outputs.changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.LIVE_REPO_TOKEN }}
+        run: |
+          title="Release: $(git log -1 --no-merges --format=%s)"
+          existing=$(gh pr list --repo "$LIVE_REPO" --head release --base main --state open --json number --jq '.[].number' | head -n 1)
+
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --repo "$LIVE_REPO" --title "$title" --body-file release-notes.md
+            echo "Updated release pull request #$existing"
+          else
+            gh pr create --repo "$LIVE_REPO" --head release --base main --title "$title" --body-file release-notes.md
+          fi
