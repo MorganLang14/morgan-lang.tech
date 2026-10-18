@@ -675,15 +675,19 @@ body.site-body.is-exiting {
     gap: 1rem;
 }
 
-/* White tile for the GitHub mark so it matches the LinkedIn logo */
-.footer-social a.github-link {
+/* Matching white tiles for the LinkedIn and GitHub logos, turning accent blue on hover */
+.footer-social a.social-tile {
     padding: 5px;
     border-radius: 6px;
     background: #fff;
     color: var(--bg);
 }
 
-.footer-social a.github-link:hover {
+.footer-social a.linkedin-link {
+    padding: 4px;
+}
+
+.footer-social a.social-tile:hover {
     background: var(--accent);
     border-radius: 6px;
 }
