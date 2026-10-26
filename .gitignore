@@ -1,0 +1,9 @@
+# Original full-size photos. The site uses the resized copies in images/bg,
+# which have their location data removed.
+images/Lydstep.jpg
+images/IMG_20170716_200008.jpg
+images/IMG_2107.JPEG
+
+# Full-size gallery originals. Only the resized copies in images/gallery/full
+# and images/gallery/thumbs, with location data removed, go on the site.
+images/gallery/originals/
