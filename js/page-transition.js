@@ -1,7 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const body = document.body;
-    body.classList.add('page-transition', 'is-visible');
-
     // Find the terminal text area and its wrapper
     const terminalLine = document.querySelector('.terminal-line');
     const terminalText = document.querySelector('.terminal-text');
@@ -62,23 +59,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Reveal scroll sections with a gentle fade when they appear in view
-    const fadeSections = document.querySelectorAll('.fade-on-scroll');
-    if (fadeSections.length > 0) {
-        if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.2 });
-
-            fadeSections.forEach((section) => observer.observe(section));
-        } else {
-            fadeSections.forEach((section) => section.classList.add('is-visible'));
-        }
+    // Closing the terminal shrinks it away, scrolls on to the next section, then puts it back for the way up
+    const terminalWindow = document.querySelector('.terminal-window');
+    const terminalClose = document.querySelector('.terminal-button.is-close');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (terminalWindow && terminalClose) {
+        terminalClose.addEventListener('click', (event) => {
+            if (reduceMotion.matches) {
+                return;
+            }
+            event.preventDefault();
+            const target = document.querySelector(terminalClose.getAttribute('href'));
+            terminalWindow.classList.add('is-closing');
+            window.setTimeout(() => {
+                target?.scrollIntoView();
+                history.replaceState(null, '', terminalClose.getAttribute('href'));
+                window.setTimeout(() => terminalWindow.classList.remove('is-closing'), 1000);
+            }, 250);
+        });
     }
 
     // Keep the CSS navbar height in sync so anchored sections are not hidden behind the sticky bar
@@ -89,9 +87,28 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         syncNavHeight();
         window.addEventListener('resize', syncNavHeight);
+
+        // Give the navbar a backing once the page has scrolled off the home photo's sky
+        const syncScrolled = () => {
+            navbar.classList.toggle('is-scrolled', window.scrollY > 8);
+        };
+        syncScrolled();
+        window.addEventListener('scroll', syncScrolled, { passive: true });
     }
 
-    // Highlight the menu link for whichever section is in the middle of the screen
+    // Load the other section photos once the page itself has finished loading
+    const backdrop = document.querySelector('.backdrop');
+    if (backdrop) {
+        const loadBackdrops = () => backdrop.classList.add('is-loaded');
+        if (document.readyState === 'complete') {
+            loadBackdrops();
+        } else {
+            window.addEventListener('load', loadBackdrops);
+        }
+    }
+    const backdropLayers = Array.from(document.querySelectorAll('.backdrop-layer'));
+
+    // Highlight the menu link and show the photo for whichever section is in the middle of the screen
     const navLinks = Array.from(document.querySelectorAll('.navbar-nav .nav-link[href^="#"]'));
     const sections = navLinks
         .map((link) => document.querySelector(link.getAttribute('href')))
@@ -108,6 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     link.removeAttribute('aria-current');
                 }
             });
+
+            backdropLayers.forEach((layer) => {
+                layer.classList.toggle('is-active', layer.dataset.section === id);
+            });
         };
 
         const spy = new IntersectionObserver((entries) => {
@@ -119,6 +140,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { rootMargin: '-50% 0px -50% 0px' });
 
         sections.forEach((section) => spy.observe(section));
+    }
+
+    // Open grid photos full size in the viewer, with buttons and arrow keys to move between them
+    const photoViewer = document.querySelector('.photo-viewer');
+    const photoLinks = Array.from(document.querySelectorAll('.photo-grid .photo-link'));
+    if (photoViewer && photoLinks.length > 0 && typeof photoViewer.showModal === 'function') {
+        const viewerImage = photoViewer.querySelector('.photo-viewer-image');
+        let photoIndex = 0;
+
+        const showPhoto = (index) => {
+            photoIndex = (index + photoLinks.length) % photoLinks.length;
+            const link = photoLinks[photoIndex];
+            viewerImage.src = link.getAttribute('href');
+            viewerImage.alt = link.querySelector('img')?.getAttribute('alt') || '';
+        };
+
+        photoLinks.forEach((link, index) => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                showPhoto(index);
+                photoViewer.showModal();
+            });
+        });
+
+        // With only one photo there is nothing to step through
+        photoViewer.querySelectorAll('.photo-viewer-button.is-prev, .photo-viewer-button.is-next').forEach((button) => {
+            button.hidden = photoLinks.length < 2;
+        });
+
+        photoViewer.querySelector('.photo-viewer-button.is-close')?.addEventListener('click', () => photoViewer.close());
+        photoViewer.querySelector('.photo-viewer-button.is-prev')?.addEventListener('click', () => showPhoto(photoIndex - 1));
+        photoViewer.querySelector('.photo-viewer-button.is-next')?.addEventListener('click', () => showPhoto(photoIndex + 1));
+
+        // Clicking the dark area around the photo closes the viewer
+        photoViewer.addEventListener('click', (event) => {
+            if (event.target === photoViewer) {
+                photoViewer.close();
+            }
+        });
+
+        photoViewer.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                event.preventDefault();
+                showPhoto(photoIndex + (event.key === 'ArrowLeft' ? -1 : 1));
+            }
+        });
     }
 
     // Manage the certification carousel so it can be controlled by buttons, dots, arrows, and autoplay
@@ -191,6 +258,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             document.addEventListener('keydown', (event) => {
+                // Leave the arrow keys to the photo viewer while it is open
+                if (document.querySelector('dialog[open]')) {
+                    return;
+                }
+
                 if (event.key === 'ArrowLeft') {
                     event.preventDefault();
                     showSlide(currentIndex - 1);
@@ -209,30 +281,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
         updateCarousel();
     }
-
-    // Add a subtle page fade transition for internal links
-    document.querySelectorAll('a[href]').forEach((link) => {
-        const href = link.getAttribute('href');
-
-        if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) {
-            return;
-        }
-
-        link.addEventListener('click', (event) => {
-            const target = event.currentTarget;
-            const targetHref = target.getAttribute('href');
-
-            if (!targetHref || targetHref.startsWith('#')) {
-                return;
-            }
-
-            event.preventDefault();
-            body.classList.remove('is-visible');
-            body.classList.add('is-exiting');
-
-            window.setTimeout(() => {
-                window.location.href = targetHref;
-            }, 220);
-        });
-    });
 });
