@@ -1,0 +1,84 @@
+# Checks: run on every pull request into Main, and again once it is merged
+#
+# - Secret scan: Main is copied to the public morgan-lang.tech repo by release.yml,
+#   so anything committed here (tokens, keys, .env files) would end up public
+# - Links: every link, image and #section anchor in the HTML points at something real
+# - HTML: the markup is valid (unclosed tags, duplicate IDs, missing alt text and so on)
+
+name: Checks
+
+on:
+  pull_request:
+    branches: [Main]
+  push:
+    branches: [Main]
+  workflow_dispatch:
+
+# A newer push to the same branch replaces any run still in progress
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # This file is copied to the live repo along with the site, so each job only runs in dev
+  secrets:
+    name: Secret scan
+    if: github.repository == 'MorganLang14/morgan-lang.tech-dev'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Lets Gitleaks comment on the pull request line that holds a secret
+      pull-requests: write
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+        with:
+          # Full history, so every commit in the pull request is scanned
+          fetch-depth: 0
+
+      - name: Scan for secrets
+        uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  links:
+    name: Links and images
+    if: github.repository == 'MorganLang14/morgan-lang.tech-dev'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      # LinkedIn refuses automated requests, and the Google Fonts preconnect hints
+      # point at bare domains that are not real pages, so those are skipped
+      - name: Check links, images and anchors
+        uses: lycheeverse/lychee-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: >-
+            --no-progress
+            --include-fragments
+            --accept 200..=299,429
+            --exclude 'linkedin\.com'
+            --exclude '^https://fonts\.(googleapis|gstatic)\.com/?$'
+            './**/*.html'
+
+  html:
+    name: HTML validation
+    if: github.repository == 'MorganLang14/morgan-lang.tech-dev'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      # Rules are set in .htmlvalidate.json
+      - name: Validate HTML
+        run: npx --yes html-validate@11 '*.html'
