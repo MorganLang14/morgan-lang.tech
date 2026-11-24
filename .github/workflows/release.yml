@@ -3,6 +3,7 @@
 # When changes are merged into Main on morgan-lang.tech-dev, this pushes Main to a
 # `release` branch on the public morgan-lang.tech repo and opens (or updates) a pull
 # request into its `main`. Nothing goes live until that pull request is merged.
+# The Dependabot config is left out, so update pull requests only open in dev.
 #
 # Needs a repository secret LIVE_REPO_TOKEN: a fine-grained personal access token
 # with access to MorganLang14/morgan-lang.tech only, and Contents + Pull requests
