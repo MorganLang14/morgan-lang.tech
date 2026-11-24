@@ -56,10 +56,9 @@ jobs:
             exit 0
           fi
 
-          git push --force --quiet "$live_url" HEAD:refs/heads/release
-          echo "changes=true" >> "$GITHUB_OUTPUT"
-
-          # Summary of what is waiting to go live, used in the pull request
+          # Title and summary of what is waiting to go live, used in the pull request.
+          # Worked out before the Dependabot commit below, so that commit never shows in them
+          echo "title=Release: $(git log -1 --no-merges --format=%s)" >> "$GITHUB_OUTPUT"
           {
             echo "Changes from morgan-lang.tech-dev waiting to go live:"
             echo
@@ -68,12 +67,24 @@ jobs:
             echo "Merge this pull request to publish them to morgan-lang.tech, or close it to hold them back."
           } > release-notes.md
 
+          # Dependabot should only open pull requests in dev, so its config stays out of the live repo
+          if [ -e .github/dependabot.yml ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git rm --quiet .github/dependabot.yml
+            git commit --quiet -m "Leave Dependabot config out of the live site"
+          fi
+
+          git push --force --quiet "$live_url" HEAD:refs/heads/release
+          echo "changes=true" >> "$GITHUB_OUTPUT"
+
       - name: Open or update the release pull request
         if: steps.push.outputs.changes == 'true'
         env:
           GH_TOKEN: ${{ secrets.LIVE_REPO_TOKEN }}
+          TITLE: ${{ steps.push.outputs.title }}
         run: |
-          title="Release: $(git log -1 --no-merges --format=%s)"
+          title="$TITLE"
           existing=$(gh pr list --repo "$LIVE_REPO" --head release --base main --state open --json number --jq '.[].number' | head -n 1)
 
           if [ -n "$existing" ]; then
