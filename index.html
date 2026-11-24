@@ -290,9 +290,10 @@
             </section>
         </main>
 
-        <!-- Full-size photo viewer, opened from the photo grid -->
+        <!-- Full-size photo viewer, opened from the photo grid. The image starts as a blank
+             1×1 placeholder and the script swaps in the chosen photo when the viewer opens. -->
         <dialog class="photo-viewer" aria-label="Photo viewer">
-            <img class="photo-viewer-image" src="" alt="">
+            <img class="photo-viewer-image" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
             <button type="button" class="photo-viewer-button is-close" aria-label="Close photo">
                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg>
             </button>
