@@ -851,6 +851,34 @@ a {
     color: var(--dusk-deep);
 }
 
+/* ---------- Footer ---------- */
+
+/* The contact panel stays centred in the space above, and the footer sits at the bottom of the screen */
+.section-contact {
+    padding-bottom: 1.5rem;
+}
+
+.section-contact .contact-panel {
+    margin-block: auto;
+}
+
+.site-footer {
+    width: min(100%, var(--content));
+    margin: 2rem auto 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--panel-line);
+    text-align: center;
+}
+
+.site-footer p {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--sky);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
 /* ---------- Smaller screens ---------- */
 
 @media (max-width: 720px) {
